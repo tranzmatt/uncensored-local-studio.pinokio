@@ -1,0 +1,9 @@
+{
+  "title": "Uncensored Local Studio",
+  "description": "Run image generation, GGUF language models, Whisper speech recognition, and Kokoro speech synthesis locally from one offline studio.",
+  "icon": "icon.png",
+  "links": [{
+    "title": "GitHub",
+    "value": "https://github.com/techjarves/Uncensored-Local-Studio"
+  }]
+}
