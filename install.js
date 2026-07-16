@@ -23,7 +23,10 @@ module.exports = {
       params: {
         message: "nvcc_ver=\"\"; if command -v nvcc >/dev/null 2>&1; then nvcc_ver=$(nvcc --version 2>/dev/null | grep -oE 'release [0-9]+' | grep -oE '[0-9]+'); fi; if [ \"$nvcc_ver\" = \"11\" ] || [ \"$nvcc_ver\" = \"12\" ]; then echo CUDA_BIN_OVERRIDE=__default__; else found=\"\"; for d in /usr/local/cuda-12* /usr/local/cuda-11*; do if [ -x \"$d/bin/nvcc\" ]; then found=\"$d/bin\"; break; fi; done; if [ -n \"$found\" ]; then echo \"CUDA_BIN_OVERRIDE=$found\"; else echo CUDA_BIN_OVERRIDE=__skip__; fi; fi",
         on: [{
-          event: "/CUDA_BIN_OVERRIDE=(\\S+)/",
+          // Require a trailing newline so this only matches the real `echo` output
+          // line, not the PTY's echo of the command's own source text (which contains
+          // the same literal "CUDA_BIN_OVERRIDE=..." substring followed by ";"/" else").
+          event: "/CUDA_BIN_OVERRIDE=(\\S+)[\\r\\n]/",
           done: true
         }]
       }
